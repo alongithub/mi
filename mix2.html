@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<meta charset="utf-8">
+</head>
+<style type="text/css">
+	*{margin: 0;padding: 0;/*background: rgba(0,0,0,0.1);*/}
+	a{text-decoration: none;color: #555;}
+	li{list-style: none;}
+	.left{float: left;}
+	.right{float: right;}
+	.clear{clear: both;}
+	del{color: #aaa;}
+	#header{height: 40px;background: #333;}
+	.container{width: 1224px;margin: 0 auto;}
+	.topbar_nav{float: left;height: 40px;line-height: 40px;}
+	.topbar_nav a,.topbar_user a{font-size: 12px;color: #b0b0b0;letter-spacing: -1px;}
+	.topbar_nav a:hover{color: #eee;}
+	#header .container .topbar_nav span,#header .container .topbar_user span{margin: 0 0.3em;color: #424242;font-size: 12px;}
+
+	.topbar_cart{float: right;width: 120px;height: 40px;float: right;background: #FF6700;line-height: 40px;text-align: center;position: relative;}
+	.topbar_cart:hover{background: #fff;}
+	.topbar_cart:hover i{background: url(images/navcart2.png) no-repeat;}
+	.topbar_cart:hover a{color: #ff6700;}
+	.topbar_cart:hover .nav_cart_lists{height: 160px;box-shadow: 0 2px 2px #ccc;}
+	.topbar_cart i{display: inline-block;height: 18px;width: 20px;background: url(images/navcart1.png) no-repeat;position: relative;top: 3px;}
+	.topbar_cart a{font-size: 12px;color: #fff;}
+	.nav_cart_lists{width: 316px;position: absolute;top: 40px;right: 0;overflow: hidden;height: 0;transition: 0.3s;z-index: 100;}
+	.nav_cart_list{background: #fff;height: 90px;overflow: hidden;width: 316px;}
+	.nav_cart_list:hover .price span{opacity: 1;cursor: pointer;}
+	.nav_cart_list a{color: #333;}
+	.nav_cart_list img{float: left;margin: 15px 10px 0 15px;}
+	.nav_cart_list p{position: relative;top: 20px;}
+	.nav_cart_list p.disc{width: 125px;float: left;font-size: 12px;line-height: 20px;}
+	.nav_cart_list p.price{width: 80px;float: right;font-size: 12px;line-height: 20px;top: 23px;margin-right: 10px;}
+	.nav_cart_list p.price span{font-size: 18px;color: #999;opacity: 0;float: right;}
+	.nav_cart_list p.price span:hover{color: #333;text-shadow: 0 0 1px #000;}
+	.topbar_user{float: right;line-height: 40px;margin-right: 20px;}
+	.nav_cart_buy{height: 70px;width: 100%;background: #fff;}
+	.nav_cart_buy p{width: 130px;float: left;font-size: 12px;text-align: left;padding-left: 15px;}
+	.nav_cart_buy p span{display: block;width: 150px;height: 40px;font-size: 23px;margin-top: -20px;color: #ff6700;}
+	.nav_cart_buy button{background: #ff6700;float: right;width: 150px;height: 40px;color: #fff;margin: 10px 10px 0 0px;border: none;}
+
+	#bannertop{height: 100px;clear: both;position: relative;background: #fff;}
+
+	#bannertop .container{height: 100px;}
+	#bannertop .container>a{display: inline-block;margin: 20px 0;}
+	#bannertop .container .bannertop_input{float: right;height: 50px;width: 300px;line-height: 50px;position: relative;margin-top: 25px;border: 1px solid #E0E0E0;}
+	#bannertop .container .bannertop_input input{height: 100%;width: 229px;border: none;padding: 0 10px;}
+	#bannertop .container .bannertop_input .search_list{ position: absolute;top: 50px;left: -1px;width: 249px;height: 0;overflow: hidden;transition:height 0.3s;border: 1px solid #E0E0E0;z-index: 10;background: #fff;border-top: none;border-bottom: none;}
+	#bannertop .container .bannertop_input:hover .search_list{height: 385px;border: 1px solid #ff6700;border-top: none;}
+	#bannertop .container .bannertop_input:hover,#bannertop .container .bannertop_input:hover div{border-color: #ff6700}
+	#bannertop .container .bannertop_input .search_list li {width: 100%;height: 35px;line-height: 35px;}
+	#bannertop .container .bannertop_input .search_list li:hover{background: rgba(0,0,0,0.1);}
+	#bannertop .container .bannertop_input .search_list li a{color: #000;font-size: 12px;display: inline-block;height: 30px;margin:0 20px;}
+	#bannertop  .bannertop_input p{position: absolute;top: 0;left: 80px;}
+	#bannertop .container .bannertop_input .search_list li span{float: right;font-size: 12px;color: #ccc;margin-right: 20px;}
+	#bannertop  .bannertop_input p span{display: inline-block;height: 20px;line-height: 20px;font-size: 12px;background: rgba(0,0,0,0.1);padding: 0 4px;color: #666}
+	#bannertop  .bannertop_input p span:hover{background: #ff6700;color: #fff;transition: 0.3s;}
+	#bannertop  .bannertop_input .search{height: 100%;width: 50px;float: right;border-left:1px solid #E0E0E0;position: relative;transition:background 0.3s;}
+	#bannertop  .bannertop_input .search span{position: absolute;display: inline-block;border: 2px solid #616161;}
+	#bannertop  .bannertop_input .search span:first-child{width: 16px;height: 16px;border-radius: 50%;top: 12px;left: 12px;}
+	#bannertop  .bannertop_input .search span:last-child{width: 10px;height: 0;border-right: none;transform: rotate(45deg);top: 30px;left: 26px;}
+	#bannertop  .bannertop_input .search:hover{background: #ff6700;}
+	#bannertop  .bannertop_input .search:hover span{border-color: #FFF;}
+
+	#bannertop  .banner_bar{float: right;height: 100%;}
+	#bannertop   .banner_bar>ul{display: inline-block;height: 100%;padding-right: 30px;}
+	#bannertop   .banner_bar>ul>li>ul{position: absolute;width: 100%;left: 0;top: 100px;background: #fff;height: 0px;overflow: hidden;transition:0.3s;z-index: 100;}
+	#bannertop   .banner_bar>ul>li>ul .container{height: auto;}
+
+	#bannertop   .banner_bar>ul>li>ul .container li{width: 200px;border-top:1px solid transparent;box-sizing: border-box;text-align: center;line-height: 50px;float: left;}
+	#bannertop   .banner_bar>ul>li>ul .container li 	.img{height: 100px;margin-top: 30px;border-right: 1px solid #ccc;text-align: center;}
+	#bannertop   .banner_bar>ul>li>ul .container li:last-child 	.img{border: none;}
+	#bannertop   .banner_bar>ul>li>ul .container li 	.img img{height: 110px;margin: 0 auto;width: auto;
+	}
+	#bannertop   .banner_bar>ul>li>ul li{height: 230px;}
+	#bannertop   .banner_bar>ul>li>ul li a{height: 20px;line-height: 20px;display: block;margin-top: 30px;font-size: 14px;color: #333;}
+	#bannertop   .banner_bar>ul>li>ul li span{height: 20px;line-height: 20px;display: block;font-size: 14px;color: #ff6700}
+	#bannertop   .banner_bar>ul>li{display: inline-block;height: 100%;line-height: 100px;}
+	#bannertop   .banner_bar>ul>li>a{font-size: 15px;color: #000;padding: 0 11px; font-family:'';}
+	#bannertop   .banner_bar>ul>li>a:hover{color: #ff6700}
+	#bannertop   .banner_bar>ul>li:hover ul{height: 230px;box-shadow: 0 3px 3px #999;border-top: 1px solid #999;}
+	section#banner {background: #fff;}
+	section#banner .container{height: 460px;position: relative;}
+	section#banner .container>aside{height: 440px;padding-top: 20px;background: rgba(0,0,0,0.4);position: absolute;}
+	section#banner .container aside nav{width: 234px;}
+	section#banner .container aside nav ul{height: 420px;}
+	section#banner .container aside nav ul li{height: 42px;line-height: 42px;}
+	section#banner .container aside nav ul li a{font-size: 14px;color: #fff;display: inline-block;height: 100%;width: 204px;font-weight: 200;float: right;}
+	section#banner .container aside nav ul li a span{float: right;font-size: 18px;color: #999;margin-right: 20px;}
+	section#banner .container>aside>nav>ul>li:hover{background: #ff6700;}
+	section#banner .container aside nav ul li aside{position: absolute;left: 234px;top:0;height: 100%;width: 0px;overflow: hidden;}
+	section#banner .container aside nav ul li:hover aside{/*box-shadow: 3px 0 5px #333;*/width: 990px;}
+	section#banner .container aside nav ul li aside ul{width: 247.5px;height: 100%;float: left;background: #fff;padding-top:1px;}
+	section#banner .container aside nav ul li aside ul li{width: 100%;height: 76px;line-height: 76px;}
+	section#banner .container aside nav ul li aside ul li img{float: left;margin: 20px 20px 0 15px;}
+	section#banner .container aside nav ul li aside ul li a{float: left;color: #000;width: auto;font-size: 13px;font-weight: 400;}
+	section#banner .container aside nav ul li aside ul li button{float: right;background: #fff;border:1px solid #ff6700;width: 60px;height: 24px;color: #ff6700;font-size: 12px;line-height: 20px;margin-top: 28px;margin-right: 10px;}
+	section#banner .container .banner_bg ul li{position: absolute;transition: 1s;height: 460px;}
+	section#banner .container .banner_bg ul li a{display: inline-block;height: 460px;}
+	
+	section#banner .container .banner_bts {position: absolute;bottom: 30px;right: 30px;}
+	section#banner .container .banner_bts span{display: inline-block;height: 5px;width: 5px;border: 2px solid #B4AD9E;background: #857761;border-radius: 50%;cursor: pointer;margin: 0 4px;}
+	section#banner .container .banner_bts i{display: inline-block;height: 7px;width: 7px;background: #fff;border-radius: 50%;position: absolute;left: 5px;top: 9.5px;transition: 0.5s ease-out;}
+	section#banner .container .banner_bts span:hover{background: #fff;}
+</style>
+<body>
+<header id="header">
+	<div class="container">
+		<div class="topbar_nav">
+			<a href="#">小米商城</a>
+			<span>|</span>
+			<a href="#">MIUI</a>
+			<span>|</span>
+			<a href="#">米聊</a>
+			<span>|</span>
+			<a href="#">游戏</a>
+			<span>|</span>
+			<a href="#">多看阅读</a>
+			<span>|</span>
+			<a href="#">云服务</a>
+			<span>|</span>
+			<a href="#">金融</a>
+			<span>|</span>
+			<a href="#">米币</a>
+			<span>|</span>
+			<a href="#">小米商城手机版</a>
+			<span>|</span>
+			<a href="#">问题反馈</a>
+			<span>|</span>
+			<a href="#">Select Region</a>
+			
+		</div>
+		<div class="topbar_cart">
+			<a href="#">
+				<i></i>
+				购物车
+				<span>（1）</span>
+			</a>
+			<div class="nav_cart_lists">
+				<div class="nav_cart_list">
+					<img src="images/pms_1499138177.54329452.jpg">
+					<p class="disc">小米笔记本Air 13 i7 8G 256G 2G独显 银色</p>
+					<p class="price">5899元 × 1<span>×</span></p>
+				</div>
+				<div class="nav_cart_buy">
+					<p>共1件商品<span>5899.00元</span></p>
+					<button onclick="">去购物车结算</button>
+				</div>
+			</div>
+		</div>
+		<div class="topbar_user">
+			<a href="#">登录</a>
+			<span>|</span>
+			<a href="#">注册</a>
+			<span>|</span>
+			<a href="#">消息通知</a>
+		</div>
+	</div>
+</header>
+<section id="bannertop">
+	<div class="container">
+		<a href="#"><img src="images/logo-footer.png"></a>
+		<div class="bannertop_input"> 
+			<input type="text" name="" />
+			<ul class="search_list">
+				<li class="li"><a href="#">小米6</a><span>约有7件</span></li>
+				<li class="li"><a href="#">红米Note 4X</a><span>约有8件</span></li>
+				<li class="li"><a href="#">小米MIX</a><span>约有1件</span></li>
+				<li class="li"><a href="#">小米Max2</a><span>约有3件</span></li>
+				<li class="li"><a href="#">小米手机5c</a><span>约有3件</span></li>
+				<li class="li"><a href="#">手环</a><span>约有6件</span></li>
+				<li class="li"><a href="#">耳机</a><span>约有19件</span></li>
+				<li class="li"><a href="#">充电宝</a><span>约有19件</span></li>
+				<li class="li"><a href="#">运动鞋</a><span>约有2件</span></li>
+				<li><a href="#">路由器</a><span>约有17件</span></li>
+				<li><a href="#">小米盒子</a><span>约有8件</span></li>
+			</ul>
+			
+			<p>
+				<span>红米Note 5A</span>
+				<span>小米Max 2</span>
+				
+			</p>
+			<div class="search">
+				<span></span>
+				<span></span>
+			</div>
+
+		</div>
+		<div class="banner_bar">
+
+				<ul>
+
+					<li><a href="#">小米手机</a>
+
+						<ul>
+							<div class="container">
+								<li>
+									<div class="img">
+										<img src="images/xm6-320.png"/>
+									</div>
+									<a href="#">小米6</a>
+									<span>2499元起</span>
+								</li>
+								<li>
+									<div class="img">
+										<img src="images/max2_toubu.png"/>
+									</div>
+									<a href="#">小米Max 2</a>
+									<span>1699元起</span>
+								</li>
+								<li>
+									<div class="img">
+										<img src="images/5x-2!160x110.jpg"/>
+									</div>
+									<a href="#">小米5 X</a>
+									<span>1299元起</span>
+								</li>
+								<li>
+									<div class="img">
+										<img src="images/xiaomiNOTE2-320-220!160x110.jpg"/>
+									</div>
+									<a href="#">小米Note 2</a>
+									<span>2799元起</span>
+								</li>
+								<li>
+									<div class="img">
+										<img src="images/MIX-320-220!160x110.jpg"/>
+									</div>
+									<a href="#">小米Mix</a>
+									<span>3499元起</span>
+								</li>
+								<li>
+									<div class="img">
+										<img src="images/5s-12!160x110.jpg"/>
+									</div>
+									<a href="#">小米5s</a>
+									<span>1999元起</span>
+								</li>
+							</div>
+							
+						</ul>
+					</li>
+					<li><a href="#">红米</a>
+						<ul>
+							<div class="container">
+								<li>
+									<div class="img">
+										<img src="images/3205a.png"/>
+									</div>
+									<a href="#">红米Note 5A 标准版</a>
+									<span>699元起</span>
+								</li>
+								<li>
+									<div class="img">
+										<img src="images/320-220!160x110.jpg"/>
+									</div>
+									<a href="#">红米Note 5A 高配版</a>
+									<span>899元起</span>
+								</li>
+								<li>
+									<div class="img">
+										<img src="images/hmn4xtb!160x110.jpg"/>
+									</div>
+									<a href="#">红米Note 4X</a>
+									<span>999元起</span>
+								</li>
+								<li>
+									<div class="img">
+										<img src="images/hm4x!160x110.jpg"/>
+									</div>
+									<a href="#">红米4X</a>
+									<span>699元起</span>
+								</li>
+								<li>
+									<div class="img">
+										<img src="images/320-2202!160x110.jpg"/>
+									</div>
+									<a href="#">红米 4</a>
+									<span>799元起</span>
+								</li>
+							</div>
+							
+						</ul>
+					</li>
+					<li><a href="#">平板·笔记本</a>
+						<ul>
+							<div class="container">
+								<li>
+									<div class="img">
+										<img src="images/mipad3_320.png"/>
+									</div>
+									<a href="#">小米平板3 64GB</a>
+									<span>1499元起</span>
+								</li>
+								<li>
+									<div class="img">
+										<img src="images/bijiben32012.5!160x110.jpg"/>
+									</div>
+									<a href="#">小米笔记本Air 12.5"</a>
+									<span>3599元起</span>
+								</li>
+								<li>
+									<div class="img">
+										<img src="images/bijiben320!160x110.jpg"/>
+									</div>
+									<a href="#">小米笔记本Air 13.3"</a>
+									<span>4999元起</span>
+								</li>
+							</div>
+							
+						</ul>
+					</li>
+					<li><a href="#">电视</a>
+						<ul>
+							<div class="container">
+								<li>
+									<div class="img">
+										<img src="images/xmds_49.png"/>
+									</div>
+									<a href="#">小米电视4 49英寸</a>
+									<span>3299元起</span>
+								</li>
+								<li>
+									<div class="img">
+										<img src="images/xmds_55.png"/>
+									</div>
+									<a href="#">小米电视4 55英寸</a>
+									<span>3999元起</span>
+								</li>
+								<li>
+									<div class="img">
+										<img src="images/dianshi465.png"/>
+									</div>
+									<a href="#">小米电视4 65英寸</a>
+									<span>9999元起</span>
+								</li>
+								<li>
+									<div class="img">
+										<img src="images/xmds_49.png"/>
+									</div>
+									<a href="#">小米电视4A 43英寸</a>
+									<span>1999元起</span>
+								</li>
+								<li>
+									<div class="img">
+										<img src="images/xmds_55.png"/>
+									</div>
+									<a href="#">小米电视4A 49英寸</a>
+									<span>2299元起</span>
+								</li>
+								<li>
+									<div class="img">
+										<img src="images/70dianshi.png"/>
+									</div>
+									<a href="#">查看全部<br>小米电视</a>
+								</li>
+							</div>
+							
+						</ul>
+					</li>
+					<li><a href="#">盒子·影音</a>
+						<ul>
+							<div class="container">
+								<li>
+									<div class="img">
+										<img src="images/mihezi.png"/>
+									</div>
+									<a href="#">小米盒子3s</a>
+									<span>329元起</span>
+								</li>
+								<li>
+									<div class="img">
+										<img src="images/mihezi.png"/>
+									</div>
+									<a href="#">小米盒子3c</a>
+									<span>229元起</span>
+								</li>
+								<li>
+									<div class="img">
+										<img src="images/hezi3s!160x110.jpg"/>
+									</div>
+									<a href="#">小米盒子3 增强版</a>
+									<span>399元起</span>
+								</li>
+								<li>
+									<div class="img">
+										<img src="images/320x220.png"/>
+									</div>
+									<a href="#">小米家庭影院</a>
+									<span>1999元起</span>
+								</li>
+							</div>
+						</ul>
+					</li>
+					<li><a href="#">路由器</a>
+						<ul>
+							<div class="container">
+								<li>
+									<div class="img">
+										<img src="images/HD-Pro.png"/>
+									</div>
+									<a href="#">小米路由器 HD/Pro</a>
+									<span>499元起</span>
+								</li>
+								<li>
+									<div class="img">
+										<img src="images/3G.png"/>
+									</div>
+									<a href="#">小米路由器 3G</a>
+									<span>249元起</span>
+								</li>
+								<li>
+									<div class="img">
+										<img src="images/xmlyq3.png"/>
+									</div>
+									<a href="#">小米路由器 3</a>
+									<span>149元起</span>
+								</li>
+								<li>
+									<div class="img">
+										<img src="images/fdq2!160x110.jpg"/>
+									</div>
+									<a href="#">小米WiFi放大器 2</a>
+									<span>49元起</span>
+								</li>
+								<li>
+									<div class="img">
+										<img src="images/3C.png"/>
+									</div>
+									<a href="#">小米电视4A 49英寸</a>
+									<span>99元起</span>
+								</li>
+								<li>
+									<div class="img">
+										<img src="images/dlm01.png"/>
+									</div>
+									<a href="#">小米WiFi电力猫</a>
+									<span>249元起</span>
+								</li>
+							</div>
+							
+						</ul>
+					</li>
+					<li><a href="#">智能硬件</a>
+						
+						<ul>
+							<div class="container">
+								<li>
+									<div class="img">
+										<img src="images/123321!160x110.jpg"/>
+									</div>
+									<a href="#">小米无人机</a>
+									<span>2999元起</span>
+								</li>
+								<li>
+									<div class="img">
+										<img src="images/sh2-320-220.png"/>
+									</div>
+									<a href="#">小米手环</a>
+									<span>149元起</span>
+								</li>
+								<li>
+									<div class="img">
+										<img src="images/jsqcs-320-220.png"/>
+									</div>
+									<a href="#">小米净水器</a>
+									<span>1499元起</span>
+								</li>
+								<li>
+									<div class="img">
+										<img src="images/saodijiqiren320-220!160x110.jpg"/>
+									</div>
+									<a href="#">米家扫地机器人</a>
+									<span>1699元起</span>
+								</li>
+								<li>
+									<div class="img">
+										<img src="images/dfb!160x110.jpg"/>
+									</div>
+									<a href="#">米家压力IH电饭煲</a>
+									<span>999元起</span>
+								</li>
+								<li>
+									<div class="img">
+										<img src="images/air2!160x110.jpg"/>
+									</div>
+									<a href="#">查看全部<br>智能硬件</a>
+								</li>
+							</div>
+							
+						</ul>
+					</li>
+					<li><a href="#">服务</a></li>
+					<li><a href="#">社区</a></li>
+				</ul>
+		</div>
+	</div>
+</section>
+
+<style type="text/css">
+	.banner{border-top: 1px solid #E0E0E0;}
+	.banner .top{height: 65px;}
+	.banner .top ul{float: right;}
+	.banner .top ul li{float: right;height: 65px;line-height: 65px;font-size: 12px;color: #ccc}
+	.banner .top ul li input{height:30px;width: 120px;background: #FF6700;border: none;color: #fff; }
+	.banner .top ul li a{font-size: 14px;margin: 0 5px;}
+	.banner .top ul li a:hover{color: #ff6700;}
+	.banner .top p{line-height: 65px;height: 65px;font-size: 17px;}
+	
+</style>
+<section class="banner">
+	<div class="top container">
+		<ul>
+			<li>
+				<input type="button" name="" value="立即购买"/>
+			</li>
+			<li><a href="javascript:;">概述</a>|<a href="javascript:;">图集</a>|<a href="javascript:;">参数</a>|<a href="javascript:;">F码通道</a>|<a href="javascript:;">用户评价</a></li>
+		</ul>
+
+		<p>小米MIX 2</p>
+	</div>
+</section>
+
+
+</body>
+</html>
